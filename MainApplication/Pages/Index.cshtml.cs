@@ -28,5 +28,10 @@ namespace MainApplication.Pages
         {
 
         }
+
+        public void OnPost()
+        {
+            Num3 = ClassLibrary1.Class1.Sum(num1, num2);
+        }
     }
 }
