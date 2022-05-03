@@ -25,12 +25,12 @@ jobs:
       matrix:
         dotnet-version: ["5.0"]
     steps:
-      - name: Install dependencies
-        run: dotnet restore
-        working-directory: ClassLibrary1
       - uses: actions/checkout@v2
       - name: Build project
         run: dotnet publish ./MainApplication -c Release --output outputDir
+      - name: Install dependencies
+        run: dotnet restore
+        working-directory: ClassLibrary1
       - name: Generate deployment package
         run: (cd outputDir && zip -r ./../deploy.zip ./)
       - name: Get timestamp
