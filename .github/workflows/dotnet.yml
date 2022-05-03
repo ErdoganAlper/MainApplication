@@ -1,0 +1,54 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ["5.0.x"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test]
+    strategy:
+      matrix:
+        dotnet-version: ["5.0"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build project
+        run: dotnet publish ./MainApplication -c Release --output outputDir
+      - name: Generate deployment package
+        run: (cd outputDir && zip -r ./../deploy.zip ./)
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: "-"
+          flags: "g"
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v16
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: MainApplication
+          environment_name: MainApplication-env
+          version_label: "${{ steps.current-time.outputs.time }}"
+          region: eu-west-1
+          deployment_package: deploy.zip
+          wait_for_deployment: true
