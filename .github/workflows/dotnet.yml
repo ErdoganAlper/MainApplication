@@ -29,7 +29,7 @@ jobs:
       - name: Github action build chain. Cross-repo builds
         # You may pin to the exact commit or the version.
         # uses: kiegroup/github-action-build-chain@dbac87c72fb6ae874c729952682c1289276e98a4
-        uses: ErdoganAlper/ClassLibrary1@4174a86e668572bddf48551259f39aac6dfef60c
+        uses: ErdoganAlper/ClassLibrary1@master
         with:
           # the file where the build chain is defined. It can a file in the same repository (relative path) or a URL
           definition-file: pull-request
