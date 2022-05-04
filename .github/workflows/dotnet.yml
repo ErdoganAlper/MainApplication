@@ -31,6 +31,8 @@ jobs:
         with:
           owner: ErdoganAlper
           repository: ClassLibrary1
+      - name: Copy ClassLibrary to Project
+        run: cp ClassLibrary ./MainApplication
       - name: Build project
         run: dotnet publish ./MainApplication -c Release --output outputDir
       - name: Generate deployment package
