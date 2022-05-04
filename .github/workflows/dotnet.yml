@@ -28,8 +28,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Github action build chain. Cross-repo builds
         # You may pin to the exact commit or the version.
-        # uses: kiegroup/github-action-build-chain@dbac87c72fb6ae874c729952682c1289276e98a4
-        uses: ErdoganAlper/ClassLibrary1@master
+        uses: kiegroup/github-action-build-chain@dbac87c72fb6ae874c729952682c1289276e98a4
+        with:
+          # the file where the build chain is defined. It can a file in the same repository (relative path) or a URL
+          definition-file: dependency-tree.yml
+          # the flow to execute, it can be 'pull-request', 'full-downstream', 'single' or 'branch'
       - name: Build project
         run: dotnet publish ./MainApplication -c Release --output outputDir
       - name: Generate deployment package
