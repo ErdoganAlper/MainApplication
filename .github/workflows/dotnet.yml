@@ -26,13 +26,13 @@ jobs:
         dotnet-version: ["5.0"]
     steps:
       - uses: actions/checkout@v2
-      - name: Download ClassLibrary
+      - name: Download ClassLibrary1
         uses: GuillaumeFalourd/clone-github-repo-action@v2
         with:
           owner: ErdoganAlper
           repository: ClassLibrary1
-      - name: Copy ClassLibrary to Project
-        run: cp ClassLibrary ./MainApplication
+      - name: Copy ClassLibrary1 to Project
+        run: cp ClassLibrary1 ./MainApplication
       - name: Build project
         run: dotnet publish ./MainApplication -c Release --output outputDir
       - name: Generate deployment package
