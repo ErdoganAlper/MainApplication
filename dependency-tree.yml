@@ -1,0 +1,6 @@
+version: "2.0"
+dependencies:
+  - project: ErdoganAlper/ClassLibrary
+  - project: ErdoganAlper/MainApplication
+    dependencies:
+      - project: ErdoganAlper/ClassLibrary
