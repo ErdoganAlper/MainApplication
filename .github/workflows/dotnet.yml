@@ -27,6 +27,9 @@ jobs:
         dotnet-version: ["5.0"]
     steps:
       - uses: actions/checkout@v2
+      - name: Trigger my downstream workflow
+        run: |
+          curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.REPO_ACCESS_TOKEN}}" -H "Accept:application/vnd.github" -H "Content-Type:application/json" https://api.github.com/repos/ErdoganAlper/ClassLibrary/dotnet.yml/dispatches --data '{"ref": "main" }'
       - name: Download ClassLibrary1
         uses: GuillaumeFalourd/clone-github-repo-action@v2
         with:
