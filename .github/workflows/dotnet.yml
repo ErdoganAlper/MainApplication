@@ -5,7 +5,12 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Source of event'
+        required: false
+        default: 'No source specified'
 
 jobs:
   test:
